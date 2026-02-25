@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Syndicate RP Loading</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background-color: #0f0f12; /* Темный фон */
+            /* Можно раскомментировать строку ниже и вставить ссылку на красивый фон */
+            /* background-image: url('https://i.imgur.com/твоякартинка.jpg'); */
+            background-size: cover;
+            background-position: center;
+            font-family: 'Montserrat', sans-serif;
+            color: white;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            overflow: hidden;
+        }
+
+        /* Затемнение фона */
+        .overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to bottom, rgba(15, 15, 18, 0.8), rgba(15, 15, 18, 0.95));
+            z-index: 1;
+        }
+
+        /* Центральный логотип */
+        .center-block {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            margin-top: 20vh;
+        }
+        .title {
+            font-size: 64px;
+            font-weight: 800;
+            letter-spacing: 4px;
+            color: #ffffff;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+        }
+        .subtitle {
+            font-size: 20px;
+            font-weight: 600;
+            color: #2ecc71; /* Фирменный зеленый */
+            margin-top: 10px;
+            letter-spacing: 2px;
+        }
+
+        /* Правила сервера (меняются) */
+        .rules-box {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            margin-top: 50px;
+            font-size: 16px;
+            color: #a0a0a0;
+            height: 30px;
+        }
+
+        /* Нижний блок с загрузкой */
+        .bottom-block {
+            position: relative;
+            z-index: 2;
+            width: 80%;
+            margin: 0 auto 5vh auto;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #d0d0d0;
+        }
+
+        #file-name {
+            color: #2ecc71;
+            font-weight: 400;
+        }
+
+        /* Полоса прогресса */
+        .progress-container {
+            width: 100%;
+            height: 6px;
+            background-color: #252530;
+            border-radius: 3px;
+            overflow: hidden;
+            position: relative;
+        }
+        .progress-bar {
+            width: 0%;
+            height: 100%;
+            background-color: #2ecc71;
+            box-shadow: 0 0 10px #2ecc71;
+            transition: width 0.2s ease;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="overlay"></div>
+
+    <div class="center-block">
+        <div class="title">SYNDICATE RP</div>
+        <div class="subtitle">ДОБРО ПОЖАЛОВАТЬ В ГОРОД</div>
+        <div class="rules-box" id="rule-text">Загрузка данных...</div>
+    </div>
+
+    <div class="bottom-block">
+        <div class="info-row">
+            <span id="status-text">Соединение с сервером...</span>
+            <span id="percentage">0%</span>
+        </div>
+        <div class="info-row">
+            <span id="file-name">Ожидание файлов...</span>
+            <span id="file-count">0 / 0</span>
+        </div>
+        <div class="progress-container">
+            <div class="progress-bar" id="progress"></div>
+        </div>
+    </div>
+
+    <script>
+        // --- СВЯЗЬ С ДВИЖКОМ GMOD ---
+        var filesTotal = 0;
+        var filesNeeded = 0;
+
+        function SetFilesTotal(total) {
+            filesTotal = total;
+        }
+
+        function SetFilesNeeded(needed) {
+            filesNeeded = needed;
+            UpdateProgress();
+        }
+
+        function DownloadingFile(fileName) {
+            document.getElementById('file-name').innerText = "Скачивание: " + fileName;
+        }
+
+        function SetStatusChanged(status) {
+            document.getElementById('status-text').innerText = status;
+        }
+
+        function UpdateProgress() {
+            if (filesTotal > 0) {
+                var filesDownloaded = filesTotal - filesNeeded;
+                var percentage = Math.round((filesDownloaded / filesTotal) * 100);
+                
+                document.getElementById('progress').style.width = percentage + '%';
+                document.getElementById('percentage').innerText = percentage + '%';
+                document.getElementById('file-count').innerText = filesDownloaded + ' / ' + filesTotal;
+            }
+        }
+
+        // --- ДИНАМИЧЕСКИЕ ПОДСКАЗКИ ---
+        var rules = [
+            "Не забывайте следить за уровнем инфляции.",
+            "Если вас арестовали — не выходите из игры.",
+            "Налоги поступают напрямую в казну Мэра.",
+            "Коммерческие грузы можно застраховать.",
+            "Играйте честно и уважайте других игроков."
+        ];
+        var ruleIndex = 0;
+        setInterval(function() {
+            ruleIndex = (ruleIndex + 1) % rules.length;
+            var el = document.getElementById('rule-text');
+            el.style.opacity = 0;
+            setTimeout(function() {
+                el.innerText = rules[ruleIndex];
+                el.style.opacity = 1;
+            }, 500);
+        }, 5000);
+    </script>
+</body>
+</html>
