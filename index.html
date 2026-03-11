@@ -9,6 +9,7 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             background-color: #0f0f12; 
+            /* Сюда потом добавишь ссылку на красивый фон */
             background-size: cover;
             background-position: center;
             font-family: 'Montserrat', sans-serif;
@@ -31,8 +32,9 @@
             position: relative;
             z-index: 2;
             text-align: center;
-            margin-top: 20vh;
+            margin-top: 15vh;
         }
+        
         .title {
             font-size: 64px;
             font-weight: 800;
@@ -40,6 +42,7 @@
             color: #ffffff;
             text-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
         }
+        
         .subtitle {
             font-size: 20px;
             font-weight: 600;
@@ -52,18 +55,68 @@
             position: relative;
             z-index: 2;
             text-align: center;
-            margin-top: 50px;
+            margin-top: 30px;
             font-size: 16px;
             color: #a0a0a0;
             height: 30px;
+            transition: opacity 0.5s ease;
         }
+
+        /* --- БЛОК ОБНОВЛЕНИЯ V2 --- */
+        .update-panel {
+            margin-top: 40px;
+            background: rgba(20, 20, 25, 0.6);
+            border: 1px solid rgba(46, 204, 113, 0.2);
+            border-radius: 12px;
+            padding: 25px 40px;
+            display: inline-block;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+        }
+
+        .update-badge {
+            display: inline-block;
+            background: #2ecc71;
+            color: #0f0f12;
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            box-shadow: 0 0 15px rgba(46, 204, 113, 0.4);
+        }
+
+        .update-list {
+            text-align: left;
+        }
+
+        .update-item {
+            font-size: 16px;
+            font-weight: 600;
+            color: #e0e0e0;
+            margin: 12px 0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            /* Начальное состояние для анимации */
+            opacity: 0;
+            transform: translateX(-30px);
+            transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .update-item.show {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        /* -------------------------- */
 
         .bottom-block {
             position: relative;
             z-index: 2;
             width: 80%;
             margin: 0 auto 5vh auto;
-            /* ПОДНЯЛИ ИНДИКАТОР НА 40 ПИКСЕЛЕЙ ВВЕРХ */
             transform: translateY(-40px);
         }
 
@@ -89,6 +142,7 @@
             overflow: hidden;
             position: relative;
         }
+        
         .progress-bar {
             width: 0%;
             height: 100%;
@@ -110,6 +164,15 @@
         <div class="title">SYNDICATE RP</div>
         <div class="subtitle">ДОБРО ПОЖАЛОВАТЬ В ГОРОД</div>
         <div class="rules-box" id="rule-text">Загрузка данных...</div>
+
+        <div class="update-panel">
+            <div class="update-badge">Обновление V2</div>
+            <div class="update-list">
+                <div class="update-item"><span>☢️</span> АЭС, добыча урана и живая логистика</div>
+                <div class="update-item"><span>🔌</span> Электросети, розетки и налог на свет</div>
+                <div class="update-item"><span>⛽️</span> Расход бензина и портативные генераторы</div>
+            </div>
+        </div>
     </div>
 
     <div class="bottom-block">
@@ -127,9 +190,18 @@
     </div>
 
     <script>
-        // НАСТРОЙКА ГРОМКОСТИ: 0.15 означает 15% громкости. 
-        // Если тихо - ставь 0.3 (30%) или 0.5 (50%).
         document.getElementById("bg-music").volume = 0.04;
+
+        // --- МАГИЯ ВЖУХ (Анимация пунктов обновления) ---
+        // Запускаем через секунду после открытия лоад-скрина
+        setTimeout(() => {
+            const items = document.querySelectorAll('.update-item');
+            items.forEach((item, index) => {
+                setTimeout(() => {
+                    item.classList.add('show');
+                }, index * 300); // Каждый следующий пункт появляется с задержкой 300мс
+            });
+        }, 800);
 
         // --- СВЯЗЬ С ДВИЖКОМ GMOD ---
         var filesTotal = 0;
@@ -153,12 +225,13 @@
 
         // --- ДИНАМИЧЕСКИЕ ПОДСКАЗКИ ---
         var rules = [
-            "Не забывайте следить за уровнем инфляции.",
-            "Если вас арестовали — не выходите из игры.",
-            "Налоги поступают напрямую в казну Мэра.",
-            "Коммерческие грузы можно застраховать.",
+            "Не забывайте следить за расходом электроэнергии на базе.",
+            "Топливо для портативного генератора можно хранить в канистре (ALT + E).",
+            "Налоги за свет и бензин поступают напрямую в казну Мэра.",
+            "Коммерческие грузы и уран можно застраховать.",
             "Играйте честно и уважайте других игроков."
-        ];
+        ]; // Слегка обновил подсказки под новые реалии!
+        
         var ruleIndex = 0;
         setInterval(function() {
             ruleIndex = (ruleIndex + 1) % rules.length;
@@ -172,6 +245,3 @@
     </script>
 </body>
 </html>
-
-
-
