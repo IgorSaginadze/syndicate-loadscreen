@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>СИНДИКАТ RP — подключение</title>
+<style>
+  :root { --bg: #0b0f0d; --card: #121815; --line: #1f2a24; --text: #e8efe9; --dim: #8a9a90; --em: #2ecc71; }
+  * { box-sizing: border-box; }
+  body { margin: 0; min-height: 100vh; display: flex; align-items: center; justify-content: center;
+         background: var(--bg); color: var(--text); font: 16px/1.5 "Segoe UI", Roboto, Arial, sans-serif; padding: 16px; }
+  .card { width: 100%; max-width: 440px; background: var(--card); border: 1px solid var(--line);
+          border-left: 4px solid var(--em); border-radius: 10px; padding: 28px 24px; }
+  h1 { margin: 0 0 4px; font-size: 22px; letter-spacing: 1px; }
+  .sub { color: var(--dim); margin: 0 0 22px; }
+  .go { display: block; text-align: center; background: var(--em); color: #06120b; font-weight: 700;
+        text-decoration: none; padding: 14px; border-radius: 8px; font-size: 17px; }
+  .go:hover { filter: brightness(1.08); }
+  .ip { display: flex; margin-top: 18px; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+  .ip code { flex: 1; padding: 10px 12px; font: 15px Consolas, monospace; color: var(--em); }
+  .ip button { border: 0; background: var(--line); color: var(--text); padding: 0 14px; cursor: pointer; font: inherit; }
+  .hint { color: var(--dim); font-size: 14px; margin: 18px 0 0; }
+  .hint code { color: var(--text); }
+</style>
+</head>
+<body>
+<div class="card">
+  <h1>СИНДИКАТ RP</h1>
+  <p class="sub">Запускаем Garry's Mod и подключаемся к серверу…</p>
+  <a class="go" id="go" href="steam://connect/46.174.49.161:27015">▶ Подключиться</a>
+  <div class="ip"><code id="ip">46.174.49.161:27015</code><button id="copy" type="button">Копировать</button></div>
+  <p class="hint">Ничего не открылось? Запустите Steam и нажмите кнопку ещё раз.
+  Или откройте консоль в Garry's Mod (клавиша <code>~</code>) и введите
+  <code>connect 46.174.49.161:27015</code></p>
+</div>
+<script>
+  setTimeout(function () { window.location.href = document.getElementById("go").href; }, 300);
+  document.getElementById("copy").onclick = function () {
+    var b = this, t = document.getElementById("ip").textContent;
+    function done() { b.textContent = "Скопировано"; setTimeout(function () { b.textContent = "Копировать"; }, 1500); }
+    if (navigator.clipboard) { navigator.clipboard.writeText(t).then(done, function () {}); }
+  };
+</script>
+</body>
+</html>
