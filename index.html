@@ -1,248 +1,80 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Syndicate RP Loading</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            background-color: #0f0f12; 
-            /* Сюда потом добавишь ссылку на красивый фон */
-            background-size: cover;
-            background-position: center;
-            font-family: 'Montserrat', sans-serif;
-            color: white;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            overflow: hidden;
-        }
-
-        .overlay {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(to bottom, rgba(15, 15, 18, 0.8), rgba(15, 15, 18, 0.95));
-            z-index: 1;
-        }
-
-        .center-block {
-            position: relative;
-            z-index: 2;
-            text-align: center;
-            margin-top: 15vh;
-        }
-        
-        .title {
-            font-size: 64px;
-            font-weight: 800;
-            letter-spacing: 4px;
-            color: #ffffff;
-            text-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
-        }
-        
-        .subtitle {
-            font-size: 20px;
-            font-weight: 600;
-            color: #2ecc71; 
-            margin-top: 10px;
-            letter-spacing: 2px;
-        }
-
-        .rules-box {
-            position: relative;
-            z-index: 2;
-            text-align: center;
-            margin-top: 30px;
-            font-size: 16px;
-            color: #a0a0a0;
-            height: 30px;
-            transition: opacity 0.5s ease;
-        }
-
-        /* --- БЛОК ОБНОВЛЕНИЯ V2 --- */
-        .update-panel {
-            margin-top: 40px;
-            background: rgba(20, 20, 25, 0.6);
-            border: 1px solid rgba(46, 204, 113, 0.2);
-            border-radius: 12px;
-            padding: 25px 40px;
-            display: inline-block;
-            backdrop-filter: blur(8px);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
-        }
-
-        .update-badge {
-            display: inline-block;
-            background: #2ecc71;
-            color: #0f0f12;
-            padding: 6px 14px;
-            border-radius: 6px;
-            font-size: 14px;
-            font-weight: 800;
-            margin-bottom: 20px;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            box-shadow: 0 0 15px rgba(46, 204, 113, 0.4);
-        }
-
-        .update-list {
-            text-align: left;
-        }
-
-        .update-item {
-            font-size: 16px;
-            font-weight: 600;
-            color: #e0e0e0;
-            margin: 12px 0;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            /* Начальное состояние для анимации */
-            opacity: 0;
-            transform: translateX(-30px);
-            transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        .update-item.show {
-            opacity: 1;
-            transform: translateX(0);
-        }
-        /* -------------------------- */
-
-        .bottom-block {
-            position: relative;
-            z-index: 2;
-            width: 80%;
-            margin: 0 auto 5vh auto;
-            transform: translateY(-40px);
-        }
-
-        .info-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-            font-size: 14px;
-            font-weight: 600;
-            color: #d0d0d0;
-        }
-
-        #file-name {
-            color: #2ecc71;
-            font-weight: 400;
-        }
-
-        .progress-container {
-            width: 100%;
-            height: 6px;
-            background-color: #252530;
-            border-radius: 3px;
-            overflow: hidden;
-            position: relative;
-        }
-        
-        .progress-bar {
-            width: 0%;
-            height: 100%;
-            background-color: #2ecc71;
-            box-shadow: 0 0 10px #2ecc71;
-            transition: width 0.2s ease;
-        }
-    </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>СИНДИКАТ RP — загрузка</title>
+<!--
+  Экран загрузки сервера «СИНДИКАТ RP» (sv_loadingurl).
+  Браузер игры - Chromium 86 без видеокарты: никакого WebGL, никакого inset,
+  aspect-ratio и прочего новее 86-го. Проверка: python build/lscheck.py
+  Показ без игры: index.html?demo (имитирует загрузку), ?s=5 - сразу слайд 5.
+-->
+<link rel="preload" href="fonts/stencil.woff2?v=30768940" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/ptnarrow-b.woff2?v=0abf7b60" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="css/ls.css?v=e9cc2200">
+<link rel="stylesheet" href="css/vig.css?v=84259579">
 </head>
-<body>
+<body class="intro">
 
-    <audio id="bg-music" autoplay loop>
-        <source src="music.mp3" type="audio/mpeg">
-    </audio>
+<canvas id="map"></canvas>
+<div id="shade"></div>
+<div id="grain"></div>
+<div id="black"></div>
 
-    <div class="overlay"></div>
+<div id="ui">
+  <div id="pin" class="pin">
+    <div class="pin-ring r1"></div><div class="pin-ring r2"></div>
+    <div class="pin-cross"></div><div class="pin-dot"></div>
+    <div class="pin-tag"><b id="pinName"></b><span id="pinSub"></span><i id="pinXY"></i></div>
+  </div>
 
-    <div class="center-block">
-        <div class="title">SYNDICATE RP</div>
-        <div class="subtitle">ДОБРО ПОЖАЛОВАТЬ В ГОРОД</div>
-        <div class="rules-box" id="rule-text">Загрузка данных...</div>
-
-        <div class="update-panel">
-            <div class="update-badge">Обновление V2</div>
-            <div class="update-list">
-                <div class="update-item"><span>☢️</span> АЭС, добыча урана и живая логистика</div>
-                <div class="update-item"><span>🔌</span> Электросети, розетки и налог на свет</div>
-                <div class="update-item"><span>⛽️</span> Расход бензина и портативные генераторы</div>
-            </div>
-        </div>
+  <aside id="ident">
+    <div id="emb">
+      <canvas id="emblem"></canvas>
+      <svg id="ring" viewBox="0 0 440 440" aria-hidden="true">
+        <path id="ringTrack" d=""/>
+        <path id="ringFill" d=""/>
+        <g id="ringTicks"></g>
+      </svg>
     </div>
+    <div id="word"><span class="w-name">СИНДИКАТ</span><span class="w-rp">RP</span></div>
+    <div id="wsub">СЕРВЕР РОЛЕВОЙ ИГРЫ · GARRY'S MOD</div>
 
-    <div class="bottom-block">
-        <div class="info-row">
-            <span id="status-text">Соединение с сервером...</span>
-            <span id="percentage">0%</span>
-        </div>
-        <div class="info-row">
-            <span id="file-name">Ожидание файлов...</span>
-            <span id="file-count">0 / 0</span>
-        </div>
-        <div class="progress-container">
-            <div class="progress-bar" id="progress"></div>
-        </div>
-    </div>
+    <div id="tip"><b>СОВЕТ</b><p id="tipText"></p></div>
 
-    <script>
-        document.getElementById("bg-music").volume = 0.01;
+    <section id="load">
+      <div class="l-head"><span class="l-lbl">ЗАГРУЗКА</span><span id="pct">0<small>%</small></span></div>
+      <div id="status">Соединяемся с сервером</div>
+      <div id="file">&nbsp;</div>
+      <div class="l-bar"><i id="bar"></i></div>
+      <div class="l-meta"><span id="mMap">rp_syndicate</span><span id="mSlots"></span><span id="mFiles"></span></div>
+    </section>
+  </aside>
 
-        // --- МАГИЯ ВЖУХ (Анимация пунктов обновления) ---
-        // Запускаем через секунду после открытия лоад-скрина
-        setTimeout(() => {
-            const items = document.querySelectorAll('.update-item');
-            items.forEach((item, index) => {
-                setTimeout(() => {
-                    item.classList.add('show');
-                }, index * 300); // Каждый следующий пункт появляется с задержкой 300мс
-            });
-        }, 800);
+  <main id="stage">
+    <header id="head">
+      <div class="h-claim"><b>АВТОРСКИЕ СИСТЕМЫ</b><span>Их нет ни на одном другом сервере — и не будет.</span></div>
+      <div class="h-right"><span id="count">01 <em>/ 12</em></span><span id="track">INYAKO — I'M REBORN</span><button id="snd" type="button" title="Музыка"><i></i><i></i><i></i><i></i></button></div>
+    </header>
 
-        // --- СВЯЗЬ С ДВИЖКОМ GMOD ---
-        var filesTotal = 0;
-        var filesNeeded = 0;
+    <div id="slide"></div>
 
-        function SetFilesTotal(total) { filesTotal = total; }
-        function SetFilesNeeded(needed) { filesNeeded = needed; UpdateProgress(); }
-        function DownloadingFile(fileName) { document.getElementById('file-name').innerText = "Скачивание: " + fileName; }
-        function SetStatusChanged(status) { document.getElementById('status-text').innerText = status; }
+    <nav id="chap"></nav>
+  </main>
+</div>
 
-        function UpdateProgress() {
-            if (filesTotal > 0) {
-                var filesDownloaded = filesTotal - filesNeeded;
-                var percentage = Math.round((filesDownloaded / filesTotal) * 100);
-                
-                document.getElementById('progress').style.width = percentage + '%';
-                document.getElementById('percentage').innerText = percentage + '%';
-                document.getElementById('file-count').innerText = filesDownloaded + ' / ' + filesTotal;
-            }
-        }
+<audio id="music" src="music.mp3" loop preload="auto"></audio>
 
-        // --- ДИНАМИЧЕСКИЕ ПОДСКАЗКИ ---
-        var rules = [
-            "Не забывайте следить за расходом электроэнергии на базе.",
-            "Канистру с бензином для портативного генератора можно хранить в инвентаре (ALT + E).",
-            "Налоги за свет и бензин поступают напрямую в казну Мэра.",
-            "Коммерческие грузы можно застраховать. В случае кражи/уничтожения вам будет 100% компенсация из Казны Мэра",
-            "Играйте честно и уважайте других игроков."
-        ]; // Слегка обновил подсказки под новые реалии!
-        
-        var ruleIndex = 0;
-        setInterval(function() {
-            ruleIndex = (ruleIndex + 1) % rules.length;
-            var el = document.getElementById('rule-text');
-            el.style.opacity = 0;
-            setTimeout(function() {
-                el.innerText = rules[ruleIndex];
-                el.style.opacity = 1;
-            }, 500);
-        }, 5000);
-    </script>
+<script src="data/mapdata.js?v=51acc4c9"></script>
+<script src="data/fp.js?v=7ab3ed8f"></script>
+<script src="js/emblem.js?v=878ad9fa"></script>
+<script src="js/map.js?v=1d3efd63"></script>
+<script src="js/slides.js?v=0aec2089"></script>
+<script src="js/vig1.js?v=6e63d741"></script>
+<script src="js/vig2.js?v=de6018f6"></script>
+<script src="js/vig3.js?v=67850221"></script>
+<script src="js/ls.js?v=500537e6"></script>
 </body>
 </html>
-
