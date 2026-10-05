@@ -216,3 +216,5 @@ body.docked #ring{opacity:1}
 .still *,.still *:before,.still *:after{transition-duration:0s!important;transition-delay:0s!important}
 .maponly #ui,.maponly #shade,.maponly #grain{display:none}
 #tip p b{color:var(--ink);font-weight:700}
+/* телефон с сайта: в игре мышь на экране загрузки выключена - подсказку «нажми на значок» не показываем */
+.rp-hint{display:none}

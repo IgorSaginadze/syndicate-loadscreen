@@ -142,7 +142,9 @@
     mark();
     if (map) $('#mMap').textContent = String(map);
     if (maxp) $('#mSlots').textContent = 'мест ' + maxp;
-    if (volume !== undefined && volume !== null && isFinite(+volume)) { gameVol = Math.max(0, Math.min(1, +volume)); if (gameVol === 0) mute(true); }
+    // volume - snd_musicvolume игрока (menu/loading.lua). Громкость им НЕ умножаем: у многих он
+    // убавлен под музыку HL2 (у владельца 0.01) - музыка играла 2 с и глохла. Только 0 - выключить
+    if (volume !== undefined && volume !== null && isFinite(+volume) && +volume <= 0) mute(true);
     stage(0.04, 0.09);
   };
   window.SetFilesTotal = function (n) { mark(); prog.total = +n || 0; files(); };
@@ -156,9 +158,10 @@
 
   // ── музыка: JoelFazhari - Synthetic Deception (Pixabay, без указания автора;
   // заказчик 05.10.2026). RMS -13.5 дБ, пик 0 дБ (декодер браузера) - на 3.5 дБ
-  // тише прежнего I'm Reborn (-10 дБ при 18 %), поэтому 27 %; вход за 3 с;
-  // громкость игры (GameDetails, 0..1) умножает; кнопка - выкл/вкл
-  var mus = $('#music'), muted = false, VOL = 0.27, gameVol = 1, fadeT0 = 0;
+  // тише прежнего I'm Reborn (-10 дБ при 18 %); 05.10 заказчик «погромче» - 40 %
+  // (+3.4 дБ к 27 %); вход за 3 с; кнопка - выкл/вкл (в игре мышь на экране
+  // загрузки выключена: loading.lua SetMouseInputEnabled(false))
+  var mus = $('#music'), muted = false, VOL = 0.40, fadeT0 = 0;
   mus.volume = 0;
   function mute(on) { muted = on; mus.muted = on; $('#snd').className = on ? 'off' : ''; }
   function play() {
@@ -168,7 +171,9 @@
   setInterval(function () {
     if (!fadeT0) return;
     var k = Math.min(1, (performance.now() - fadeT0) / 3000);
-    mus.volume = Math.max(0, Math.min(1, VOL * gameVol * k));
+    mus.volume = Math.max(0, Math.min(1, VOL * k));
+    // встала сама (сбой потока, конец без loop) - запустить снова
+    if (!muted && (mus.paused || mus.ended)) play();
   }, 100);
   play();
   $('#snd').addEventListener('click', function (e) { e.stopPropagation(); mute(!muted); if (!muted) play(); });

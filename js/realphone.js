@@ -240,7 +240,7 @@ var REALPHONE = (function () {
       var C = RP.ctl(root), now = root.querySelector('.rp-now'), about = root.querySelector('.rp-about'), user = false;
       function say(id) {
         now.textContent = id ? nameOf(id) : 'Рабочий стол';
-        about.textContent = id ? (ABOUT[id] || '') : 'Нажми на любой значок.';
+        about.textContent = id ? (ABOUT[id] || '') : 'Экраны и анимации — из самой игры.';
         root.querySelector('.rpn-r').classList.remove('flash'); void root.offsetWidth; root.querySelector('.rpn-r').classList.add('flash');
       }
       function openApp(id) { var it = null; P.layout.forEach(function (l) { if (l.id === id) it = l; }); if (it) C.tap(it.x + it.s / 2, it.y + it.s / 2); C.open(id); say(id); }
