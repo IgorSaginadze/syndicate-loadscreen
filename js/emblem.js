@@ -317,13 +317,20 @@ var EMB = (function () {
     }
     return pts;
   }
-  function strokePts(pts, w, style) {
+  function strokePts(pts, w, style, closed) {
     if (pts.length < 2) return;
     ctx.beginPath();
     ctx.moveTo(pts[0][0], pts[0][1]);
     for (var i = 1; i < pts.length; i++) ctx.lineTo(pts[i][0], pts[i][1]);
+    if (closed) ctx.closePath();
     ctx.lineWidth = w; ctx.strokeStyle = style; ctx.lineJoin = 'miter'; ctx.lineCap = 'butt';
     ctx.stroke();
+  }
+  // обе половины рамки - ОДНОЙ линией: левая вершина становится изломом линии (острый стык),
+  // а не двумя торцами встык (между торцами под 120° оставалась щель); целая рамка замыкается
+  function hexRun(r, t) {
+    var dn = halfHex(r, t, -1).reverse(), up = halfHex(r, t, 1);
+    return { pts: dn.concat(up.slice(1)), ends: [dn[0], up[up.length - 1]], closed: t >= 1 };
   }
   function spark(p, a) {
     var g = ctx.createRadialGradient(p[0], p[1], 0, p[0], p[1], 26);
@@ -344,16 +351,17 @@ var EMB = (function () {
     }
     var rm = (RO + RI) / 2, wr = (RO - RI) * COS30 * SCALE;
     if (st.o > 0) {
-      for (var d = -1; d <= 1; d += 2) {
-        var pts = halfHex(rm, st.o, d);
-        strokePts(pts, wr * 3.2, 'rgba(46,204,113,.10)');
-        strokePts(pts, wr, 'rgb(46,204,113)');
-        if (st.o < 1) spark(pts[pts.length - 1], 1);
-      }
+      var run = hexRun(rm, st.o);
+      if (run.closed) run.pts.pop();                       // последняя точка = первая: замкнёт closePath
+      strokePts(run.pts, wr * 3.2, 'rgba(46,204,113,.10)', run.closed);
+      strokePts(run.pts, wr, 'rgb(46,204,113)', run.closed);
+      if (st.o < 1) { spark(run.ends[0], 1); spark(run.ends[1], 1); }
     }
     if (st.l > 0) {
       var lm = (LR0 + LR1) / 2, wl = (LR0 - LR1) * COS30 * SCALE;
-      for (d = -1; d <= 1; d += 2) strokePts(halfHex(lm, st.l, d), wl, 'rgb(20,62,39)');
+      var lr = hexRun(lm, st.l);
+      if (lr.closed) lr.pts.pop();
+      strokePts(lr.pts, wl, 'rgb(20,62,39)', lr.closed);
     }
     if (st.c > 0) {
       var g = st.c * 144 * D2R, m = Math.PI;
@@ -459,10 +467,11 @@ var EMB = (function () {
     flash(fl, rr);
   }
 
+  var KMAX = 1.7;   // заставка во весь экран поднимает потолок на время (site.js, splash)
   function resize(scale) {
     // потолок 1.7: на 4K холст знака иначе вырос бы до 1120 px и кадр объёма
     // стоил бы ~12 мс процессора; лёгкое растяжение там незаметно
-    k = Math.max(0.5, Math.min(1.7, scale));
+    k = Math.max(0.5, Math.min(KMAX, scale));
     var px = Math.round(W * k);
     if (cv.width !== px) { cv.width = px; cv.height = px; }
   }
@@ -473,6 +482,8 @@ var EMB = (function () {
       build();
     },
     resize: resize,
+    cap: function (c) { KMAX = c; },
+    started: function () { return running; },
     start: function (skipIntro) {
       running = true;
       last = performance.now();

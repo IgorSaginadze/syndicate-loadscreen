@@ -21,6 +21,9 @@
   var S = { s: 1, ox: 0, oy: 0, W: 1920, H: 1080 };
   var INTRO_SCALE = 1.35, EMB_CX = 304, EMB_CY = 304, PIN_X = 760, PIN_Y = 846;
   var cur = -1, docked = false, nextT = null, pinT = null, TL = null, hold = !!Q.hold;
+  // ?reel - ролик на 30 с: [слайд, длительность мс, скорость шагов примера]
+  var REEL = Q.reel !== undefined ? [[0, 7800, 0.62], [1, 4300, 0.5], [4, 4300, 0.5], [5, 4900, 0.55], [6, 3900, 0.5]] : null, reelI = 0;
+  var FLY = REEL ? 1600 : 2600, PIN_WAIT = REEL ? 1500 : 2500;
 
   // ── макет 1920x1080 целиком в окно, карта на весь экран ─────────────────
   function fit() {
@@ -151,10 +154,11 @@
   };
   window.SetStatusChanged = function (s) { mark(); $('#status').textContent = tr(s); };
 
-  // ── музыка: INYAKO - I'm Reborn (заказчик 29.09.2026). Трек сведён громко
-  // (RMS -10 дБ, пик 0 дБ, замер декодером браузера), поэтому 18 % и плавный
-  // вход за 3 с; громкость игры (GameDetails, 0..1) умножает; кнопка - выкл/вкл
-  var mus = $('#music'), muted = false, VOL = 0.18, gameVol = 1, fadeT0 = 0;
+  // ── музыка: JoelFazhari - Synthetic Deception (Pixabay, без указания автора;
+  // заказчик 05.10.2026). RMS -13.5 дБ, пик 0 дБ (декодер браузера) - на 3.5 дБ
+  // тише прежнего I'm Reborn (-10 дБ при 18 %), поэтому 27 %; вход за 3 с;
+  // громкость игры (GameDetails, 0..1) умножает; кнопка - выкл/вкл
+  var mus = $('#music'), muted = false, VOL = 0.27, gameVol = 1, fadeT0 = 0;
   mus.volume = 0;
   function mute(on) { muted = on; mus.muted = on; $('#snd').className = on ? 'off' : ''; }
   function play() {
@@ -177,7 +181,9 @@
     'Меню <b>F4</b>: работы, магазин и настройки — там же сброс ПИН-кода карты.',
     'Звонок на <b>112</b> с телефона уходит дежурным полиции, скорой и судмеда.',
     'В машине телефон открывается на <b>M</b>.',
-    'Честные деньги — на карте. Наличные — для тёмных дел.'
+    'Честные деньги — на карте. Наличные — для тёмных дел.',
+    'Пополнить счёт и купить VIP — <b>F1</b>, прямо в игре. С VIP навыки растут в полтора раза быстрее.',
+    'Наш Discord — <b>discord.gg/KKFJRjKgUy</b>.'
   ];
   var tipI = Math.floor(Math.random() * TIPS.length), tipEl = $('#tipText');
   tipEl.innerHTML = TIPS[tipI];
@@ -215,10 +221,16 @@
       '<div class="kick"><b>' + pad2(i + 1) + '</b><i></i><span>' + sl.kick + '</span></div>' +
       '<h1 class="ttl"><span class="tt">' + t + '</span></h1>' +
       '<div class="txt"><p class="lead">' + sl.lead + '</p><ul class="facts">' + facts + '</ul></div>' +
-      '<figure class="vig v-' + sl.id + '"><div class="vig-in"><svg viewBox="0 0 730 530" xmlns="http://www.w3.org/2000/svg">' + (V ? V.html() : '') + '</svg></div>' +
+      '<figure class="vig v-' + sl.id + '"><div class="vig-in">' + vigBody(V) + '</div>' +
       '<span class="cn a"></span><span class="cn b"></span><span class="cn c"></span><span class="cn d"></span>' +
       '<figcaption><b>РИС. ' + (i + 1) + '</b>' + sl.cap + '</figcaption></figure></div>';
   }
+  // схема - SVG 730x530; телефон, Синуслуги и навыки с сайта - HTML-витрина (V.box)
+  function vigBody(V) {
+    if (V && V.box) return V.box();
+    return '<svg viewBox="0 0 730 530" xmlns="http://www.w3.org/2000/svg">' + (V ? V.html() : '') + '</svg>';
+  }
+  function vigRoot(el) { var b = el.querySelector('.vig-in'); return b ? b.firstElementChild : null; }
   function fitTitle(el) {
     var h = el.querySelector('.ttl'), tt = el.querySelector('.tt');
     h.style.fontSize = '120px';
@@ -238,7 +250,7 @@
     } else if (L.wide) { ax = S.ox + 1256 * s; ay = S.oy + 560 * s; }
     else { ax = S.ox + (L.ax || PIN_X) * s; ay = S.oy + (L.ay || PIN_Y) * s; }
     var tg = { x: fx, y: fy, z: z * s, r: (L.r || 0) * Math.PI / 180, ax: ax, ay: ay };
-    if (instant) MAP.set(tg); else MAP.fly(tg, 2600);
+    if (instant) MAP.set(tg); else MAP.fly(tg, FLY);
   }
   function pinFor(sl) {
     var L = sl.loc;
@@ -261,9 +273,14 @@
     MAP.clearRoute();
     MAP.dots(null);
   }
+  function slideDur() { return REEL ? REEL[reelI][1] : SLIDES[cur].dur; }
   function schedule() {
     clearTimeout(nextT);
     if (hold) return;
+    if (REEL) {
+      nextT = setTimeout(function () { if (reelI + 1 < REEL.length) { reelI++; show(REEL[reelI][0]); } }, slideDur());
+      return;
+    }
     nextT = setTimeout(function () { show((cur + 1) % SLIDES.length); }, SLIDES[cur].dur);
   }
   function show(i) {
@@ -282,7 +299,7 @@
     var el = wrap.firstChild;
     slideBox.appendChild(el);
     fitTitle(el);
-    if (VIG[sl.id] && VIG[sl.id].layout) VIG[sl.id].layout(el.querySelector('.vig-in svg'));
+    if (VIG[sl.id] && VIG[sl.id].layout) VIG[sl.id].layout(vigRoot(el));
     // главы
     var cs = chap.querySelectorAll('.ch');
     for (k = 0; k < cs.length; k++) {
@@ -291,23 +308,24 @@
     }
     var bar = cs[i].querySelector('i');
     void bar.offsetWidth;
-    bar.style.transitionDuration = (hold ? 0 : sl.dur) + 'ms';
+    bar.style.transitionDuration = (hold ? 0 : slideDur()) + 'ms';
     cs[i].className = 'ch on';
     $('#count').innerHTML = pad2(i + 1) + ' <em>/ ' + pad2(SLIDES.length) + '</em>';
     // камера и булавка
     pin.classList.remove('on');
     clearTimeout(pinT);
     camTo(sl, false);
+    VK.speed = REEL ? REEL[reelI][2] : 1;
     pinT = setTimeout(function () {
       if (cur !== i) return;
       if (!sl.loc.wide && !sl.loc.frame) { pinFor(sl); pin.classList.add('on'); }
       if (sl.loc.route && window.SYN_MAPDATA) MAP.route(window.SYN_MAPDATA.route, 2000);
       if (sl.loc.gps && window.SYN_MAPDATA) MAP.dots(window.SYN_MAPDATA.gps);
-    }, 2500);
+    }, PIN_WAIT);
     if (!first) EMB.kick();
     setTimeout(function () { el.classList.add('in'); }, first ? 30 : 200);
     // пример
-    var V = VIG[sl.id], root = el.querySelector('.vig-in svg');
+    var V = VIG[sl.id], root = vigRoot(el);
     TL = new VK.Timeline();
     var myTL = TL;
     if (V && V.run) setTimeout(function () { if (TL === myTL) V.run(root, myTL); }, 450);
@@ -316,6 +334,12 @@
 
   // ── вступление ─────────────────────────────────────────────────────────
   function start() {
+    // казино виртуальное (только в телефоне, владелец 05.10) - с плана города его подпись и место убраны, как на сайте
+    var D = window.SYN_MAPDATA;
+    if (D) {
+      D.marks = D.marks.filter(function (m) { return m[2] !== 'casino'; });
+      D.gps = D.gps.filter(function (g) { return g[1] !== 'Казино'; });
+    }
     MAP.init($('#map'));
     EMB.init($('#emblem'));
     var skip = Q.s !== undefined || Q.nointro !== undefined;
@@ -350,7 +374,7 @@
       emb.style.transform = '';
     }, 3700);
     setTimeout(function () { body.classList.remove('intro'); }, 4100);
-    setTimeout(function () { EMB.resize(S.s * dpr); show(0); }, 4700);
+    setTimeout(function () { EMB.resize(S.s * dpr); show(REEL ? REEL[0][0] : 0); }, 4700);
   }
 
   // ── показ без игры ─────────────────────────────────────────────────────
@@ -372,7 +396,9 @@
     steps.push([t += 1500, function () { window.SetStatusChanged('Starting Lua...'); }]);
     steps.push([t += 4000, function () { window.SetStatusChanged('Lua Started!'); }]);
     demoOn = true;
-    steps.forEach(function (s) { setTimeout(function () { if (!demoOn) return; inDemo = true; try { s[1](); } finally { inDemo = false; } }, s[0]); });
+    // ?demolen=мс - растянуть или сжать показ загрузки (для ролика)
+    var k = Q.demolen ? (+Q.demolen) / t : 1;
+    steps.forEach(function (s) { setTimeout(function () { if (!demoOn) return; inDemo = true; try { s[1](); } finally { inDemo = false; } }, s[0] * k); });
   }
   if (Q.demo !== undefined && Q.demo !== '0') demo();
   else if (Q.demo === undefined && !/GMod|Valve/i.test(navigator.userAgent)) demoT = setTimeout(function () { if (!real) demo(); }, 2500);
@@ -388,7 +414,7 @@
       if (el) {
         fitTitle(el);
         var V = VIG[SLIDES[cur].id];
-        if (V && V.layout) V.layout(el.querySelector('.vig-in svg'));
+        if (V && V.layout) V.layout(vigRoot(el));
       }
     }, function () { });
   }

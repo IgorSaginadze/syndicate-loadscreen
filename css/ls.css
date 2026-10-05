@@ -153,7 +153,7 @@ body.intro #tip{opacity:0}
 .vig-in:before{content:"";position:absolute;left:0;top:0;right:0;bottom:0;pointer-events:none;
   background-image:linear-gradient(rgba(46,204,113,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(46,204,113,.035) 1px,transparent 1px);
   background-size:24px 24px;background-position:-1px -1px}
-.vig-in svg{position:absolute;left:0;top:0;width:730px;height:530px;overflow:hidden}
+.vig-in>svg{position:absolute;left:0;top:0;width:730px;height:530px;overflow:hidden}
 .vig .cn{position:absolute;width:16px;height:16px;border-color:var(--em);border-style:solid;border-width:0}
 .vig .cn.a{left:-5px;top:-5px;border-left-width:2px;border-top-width:2px}
 .vig .cn.b{right:-5px;top:-5px;border-right-width:2px;border-top-width:2px}
