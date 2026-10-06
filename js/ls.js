@@ -158,10 +158,10 @@
 
   // ── музыка: JoelFazhari - Synthetic Deception (Pixabay, без указания автора;
   // заказчик 05.10.2026). RMS -13.5 дБ, пик 0 дБ (декодер браузера) - на 3.5 дБ
-  // тише прежнего I'm Reborn (-10 дБ при 18 %); 05.10 заказчик «погромче» - 40 %
+  // тише прежнего I'm Reborn (-10 дБ при 18 %); 05.10 заказчик «погромче» - 40 %, 06.10 «в 2 раза тише» - 20 %
   // (+3.4 дБ к 27 %); вход за 3 с; кнопка - выкл/вкл (в игре мышь на экране
   // загрузки выключена: loading.lua SetMouseInputEnabled(false))
-  var mus = $('#music'), muted = false, VOL = 0.40, fadeT0 = 0;
+  var mus = $('#music'), muted = false, VOL = 0.20, fadeT0 = 0;
   mus.volume = 0;
   function mute(on) { muted = on; mus.muted = on; $('#snd').className = on ? 'off' : ''; }
   function play() {
