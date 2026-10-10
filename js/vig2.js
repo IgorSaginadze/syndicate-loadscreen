@@ -119,7 +119,7 @@
       for (i = 0; i < 4; i++) o += '<rect x="' + (136 + i * 26) + '" y="176" width="20" height="26" rx="3" fill="none" stroke="#2E3F37"/><circle class="pd pd' + i + '" cx="' + (146 + i * 26) + '" cy="189" r="4.5" fill="#2ECC71"/>';
       o += T(186, 236, 'as-s', 'ВВОД — ПОДТВЕРДИТЬ', 'middle') + '</g>';
       o += '<g class="as as2">' + T(186, 136, 'as-b', 'СНЯТЬ НАЛИЧНЫЕ', 'middle') +
-        T(108, 172, 'as-o', '1 000 $') + T(108, 206, 'as-o as-sel', '5 000 $') + T(264, 172, 'as-o', '10 000 $', 'end') + T(264, 206, 'as-o', 'ДРУГАЯ', 'end') +
+        T(108, 172, 'as-o', '500 $') + T(108, 206, 'as-o as-sel', '1 000 $') + T(264, 172, 'as-o', '2 500 $', 'end') + T(264, 206, 'as-o', 'ДРУГАЯ', 'end') +
         T(186, 250, 'as-s', 'ВЫБЕРИТЕ СУММУ', 'middle') + '</g>';
       o += '<g class="as as3">' + T(186, 170, 'as-b', 'ОПЕРАЦИЯ', 'middle') + T(186, 190, 'as-b', 'ВЫПОЛНЯЕТСЯ', 'middle') +
         '<g class="as-spin"><path d="M186 208a14 14 0 1 1-14 14" stroke="#2ECC71" stroke-width="3" fill="none" stroke-linecap="round"/></g></g>';
@@ -142,14 +142,14 @@
       o += '<rect x="86" y="458" width="222" height="40" rx="5" fill="#0A0F0D" stroke="#3A4C43"/>';
       o += '<clipPath id="atCash"><rect x="86" y="466" width="222" height="80"/></clipPath>';
       o += '<g clip-path="url(#atCash)"><g class="at-cash"><rect x="126" y="440" width="140" height="30" rx="2" fill="#CFE0D3" stroke="#6F9B7E"/>' +
-        '<rect x="126" y="446" width="140" height="3" fill="#9EC4AA"/><rect x="186" y="440" width="18" height="30" fill="#2ECC71"/>' + T(150, 462, 'at-den', '1000') + '</g></g>';
+        '<rect x="126" y="446" width="140" height="3" fill="#9EC4AA"/><rect x="186" y="440" width="18" height="30" fill="#2ECC71"/>' + T(150, 462, 'at-den', '100') + '</g></g>';
       o += '<rect class="at-shut" x="98" y="466" width="198" height="24" rx="2" fill="#56645D"/>';
       // справа: карта крупно и чек
       o += '<g class="at-card"><g transform="translate(398,64)">' + K.card(290, '4276 3800 1204 0417', 'IVAN KARPOV') + '</g></g>';
       o += '<g class="at-cl">' + T(398, 48, 'v-d', 'ВАША КАРТА') + '</g>';
       o += '<g class="at-bill"><clipPath id="atBill"><rect class="at-bcl" x="440" y="284" width="210" height="0"/></clipPath><g clip-path="url(#atBill)">' +
         '<path d="M446 284H646V494l-10 8-10-8-10 8-10-8-10 8-10-8-10 8-10-8-10 8-10-8-10 8-10-8-10 8-10-8-10 8-10-8-10 8-10-8-10 8-10-8V270z" fill="url(#paperG)"/>';
-      var rc = [['СИНДИКАТ БАНК', ''], ['БАНКОМАТ № 0102', ''], ['29.09.2026', '21:47'], ['КАРТА', '•0417'], ['ВЫДАЧА', '5 000 $'], ['ОСТАТОК', '48 215 $'], ['', ''], ['СПАСИБО', '']];
+      var rc = [['СИНДИКАТ БАНК', ''], ['БАНКОМАТ № 0102', ''], ['29.09.2026', '21:47'], ['КАРТА', '•0417'], ['ВЫДАЧА', '1 000 $'], ['ОСТАТОК', '4 821 $'], ['', ''], ['СПАСИБО', '']];
       for (i = 0; i < rc.length; i++) o += T(462, 310 + i * 23, i === 0 ? 'rc-h' : 'rc-t', rc[i][0]) + T(630, 310 + i * 23, 'rc-t', rc[i][1], 'end');
       o += '</g></g>';
       return o;
@@ -174,7 +174,7 @@
     }
   };
 
-  // ── 7. ОПЛАТА КАРТОЙ: касанием до 10 000 $, дороже - чип и ПИН ────────────
+  // ── 7. ОПЛАТА КАРТОЙ: касанием до 1 000 $, дороже - чип и ПИН ─────────────
   // A.TAPMAX = 10000, A.TAPTIME = 1.2 с (synd_term/shared.lua).
   VIG.term = {
     html: function () {
@@ -187,20 +187,20 @@
       o += '<clipPath id="tmBill"><rect class="tm-bcl" x="150" y="118" width="140" height="0"/></clipPath>';
       o += '<g class="tm-bill" clip-path="url(#tmBill)"><rect x="158" y="18" width="124" height="104" fill="url(#paperG)"/>' +
         T(220, 38, 'rc-h', 'РЕСТОРАН', 'middle') + T(166, 60, 'rc-t', 'ЗАКАЗ № 2231') + T(274, 60, 'rc-t', '21:47', 'end') +
-        T(166, 80, 'rc-t', 'КАРТА') + T(274, 80, 'rc-t', '•0417', 'end') + T(166, 100, 'rc-t', 'ИТОГО') + T(274, 100, 'rc-t', '1 250 $', 'end') + '</g>';
+        T(166, 80, 'rc-t', 'КАРТА') + T(274, 80, 'rc-t', '•0417', 'end') + T(166, 100, 'rc-t', 'ИТОГО') + T(274, 100, 'rc-t', '125 $', 'end') + '</g>';
       // корпус терминала
       o += '<rect x="120" y="112" width="200" height="390" rx="26" fill="url(#body)" stroke="#3A4C43" stroke-width="1.5"/>';
       o += '<rect x="150" y="116" width="140" height="6" rx="3" fill="#030504"/>';
       o += '<rect x="138" y="138" width="164" height="146" rx="8" fill="#0A0F0D" stroke="#2A3731"/><rect x="146" y="146" width="148" height="130" rx="4" fill="url(#scr)"/>';
       // экраны терминала
       var nfc = '<g fill="none" stroke="#2ECC71" stroke-width="2" stroke-linecap="round"><path d="M214 232a6 6 0 0 1 0 12"/><path d="M219 228a12 12 0 0 1 0 20"/><path d="M224 224a18 18 0 0 1 0 28"/></g>';
-      o += '<g class="ts ts0">' + T(220, 170, 'ts-l', 'К ОПЛАТЕ', 'middle') + T(220, 204, 'ts-sum', '1 250 $', 'middle') + nfc + T(220, 268, 'ts-l', 'ПРИЛОЖИТЕ КАРТУ', 'middle') + '</g>';
+      o += '<g class="ts ts0">' + T(220, 170, 'ts-l', 'К ОПЛАТЕ', 'middle') + T(220, 204, 'ts-sum', '125 $', 'middle') + nfc + T(220, 268, 'ts-l', 'ПРИЛОЖИТЕ КАРТУ', 'middle') + '</g>';
       o += '<g class="ts ts1">' + T(220, 196, 'ts-l', 'ЧТЕНИЕ КАРТЫ', 'middle') + '<rect x="166" y="212" width="108" height="6" fill="#131B18"/><rect class="ts-bar" x="166" y="212" width="108" height="6" fill="#2ECC71"/></g>';
       o += '<g class="ts ts2"><circle cx="220" cy="196" r="22" fill="none" stroke="#2ECC71" stroke-width="3"/><path d="M209 196l8 8 14-15" stroke="#2ECC71" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>' + T(220, 246, 'ts-ok', 'ОДОБРЕНО', 'middle') + '</g>';
-      o += '<g class="ts ts3">' + T(220, 170, 'ts-l', 'К ОПЛАТЕ', 'middle') + T(220, 204, 'ts-sum', '12 400 $', 'middle') + T(220, 236, 'ts-l', 'ДОРОЖЕ 10 000 $', 'middle') + T(220, 258, 'ts-l', 'ВСТАВЬТЕ КАРТУ', 'middle') + '</g>';
+      o += '<g class="ts ts3">' + T(220, 170, 'ts-l', 'К ОПЛАТЕ', 'middle') + T(220, 204, 'ts-sum', '1 240 $', 'middle') + T(220, 236, 'ts-l', 'ДОРОЖЕ 1 000 $', 'middle') + T(220, 258, 'ts-l', 'ВСТАВЬТЕ КАРТУ', 'middle') + '</g>';
       o += '<g class="ts ts4">' + T(220, 180, 'ts-l', 'ВВЕДИТЕ ПИН-КОД', 'middle');
       for (i = 0; i < 4; i++) o += '<circle class="tp tp' + i + '" cx="' + (190 + i * 20) + '" cy="210" r="5"/>';
-      o += T(220, 252, 'ts-l', '12 400 $', 'middle') + '</g>';
+      o += T(220, 252, 'ts-l', '1 240 $', 'middle') + '</g>';
       o += '<g class="ts ts5"><circle cx="220" cy="196" r="22" fill="none" stroke="#2ECC71" stroke-width="3"/><path d="M209 196l8 8 14-15" stroke="#2ECC71" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>' + T(220, 246, 'ts-ok', 'ОДОБРЕНО', 'middle') + '</g>';
       // клавиши
       var lb = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '', '0', ''];
@@ -212,7 +212,7 @@
       // карта для касания (над корпусом)
       o += '<g class="tm-cf"><g transform="translate(418,108)">' + K.card(250, '4276 3800 1204 0417', 'IVAN KARPOV') + '</g></g>';
       // три правила справа
-      var rows = [['nfc', 'ДО 10 000 $', 'приложил карту — и пошёл'], ['chip', 'ДОРОЖЕ 10 000 $', 'карту в терминал и ПИН-код'], ['cash', 'НАЛИЧНЫЕ', 'для тёмных дел: мет, даркнет, принтеры']];
+      var rows = [['nfc', 'ДО 1 000 $', 'приложил карту — и пошёл'], ['chip', 'ДОРОЖЕ 1 000 $', 'карту в терминал и ПИН-код'], ['cash', 'НАЛИЧНЫЕ', 'для тёмных дел: мет, даркнет, принтеры']];
       var ic = {
         nfc: '<g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10 14a6 6 0 0 1 0 12"/><path d="M15 10a12 12 0 0 1 0 20"/><path d="M20 6a18 18 0 0 1 0 28"/></g>',
         chip: '<rect x="4" y="9" width="28" height="22" rx="4" fill="none" stroke="currentColor" stroke-width="2"/><path d="M4 20h28M18 9v22" stroke="currentColor" stroke-width="2"/>',
@@ -258,7 +258,7 @@
       o += '<rect x="56" y="110" width="166" height="150" rx="4" fill="#050A08" stroke="#2A3731"/>';
       o += T(68, 132, 'v-d', 'СУММА') + T(210, 168, 'fu-sum', '0', 'end') + T(210, 132, 'v-d', '$', 'end');
       o += T(68, 190, 'v-d', 'ЛИТРЫ') + T(210, 222, 'fu-l', '0,00', 'end');
-      o += T(68, 248, 'v-d', 'ЗА ЛИТР') + T(210, 249, 'fu-p', '50 $', 'end');
+      o += T(68, 248, 'v-d', 'ЗА ЛИТР') + T(210, 249, 'fu-p', '2,7 $', 'end');
       var gr = ['92', '95', '100', 'ДТ'];
       for (i = 0; i < 4; i++) {
         o += '<g class="fg fg' + i + '"><rect x="' + (56 + i * 42) + '" y="276" width="36" height="42" rx="5" fill="#141B18" stroke="#2E3F37"/>' +
@@ -304,7 +304,7 @@
       TL.at(2500, function () { root.classList.add('p2'); st.textContent = 'ЗАПРАВКА · АИ-95'; });
       TL.anim(2900, 3000, function (e) {
         var l = 42.7 * e;
-        lit.textContent = K.dec(l, 2); sum.textContent = K.money(l * 50);
+        lit.textContent = K.dec(l, 2); sum.textContent = K.dec(l * 2.7, 2);
         setN(0.12 + 0.72 * e); setT(7420 - 43 * e);
       }, function (k) { return k; });
       TL.at(6000, function () { root.classList.add('p3'); st.textContent = 'ПОЛНЫЙ БАК'; });

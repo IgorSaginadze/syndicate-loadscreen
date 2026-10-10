@@ -228,8 +228,8 @@ var VIG_SITE = (function () {
   // пена, клапан; Т-4 слив через картридж; КШ-4 «медленно», помутнение и затравка;
   // СФ-1 молоток, весы, пакет. Сцены - группы .mx-sc, видна одна (класс on).
   var GR = [ // сорт, порог %, цена $/г, цвет
-    ['КУХНЯ', 0, '1,00', '#9AA39E'], ['ЯНТАРЬ', 60, '1,75', '#D9963A'], ['РОЗОВЫЙ', 75, '2,05', '#E77FB0'],
-    ['ЛЁД', 90, '3,20', '#D6ECF5'], ['ГОЛУБОЙ', 97, '4,00', '#4FA8F0']];
+    ['КУХНЯ', 0, '0,10', '#9AA39E'], ['ЯНТАРЬ', 60, '0,17', '#D9963A'], ['РОЗОВЫЙ', 75, '0,20', '#E77FB0'],
+    ['ЛЁД', 90, '0,29', '#D6ECF5'], ['ГОЛУБОЙ', 97, '0,33', '#4FA8F0']];
   var MCX0 = 252, MCX1 = 700, MCY0 = 268, MCY1 = 140; // график варки: 0..15 мин, 20..100 °C
   function mcy(t) { return MCY0 - (t - 20) / 80 * (MCY0 - MCY1); }
   function tempAt(k) { // ход партии: разогрев, окно 64..72, пена (перегрев), остывание
@@ -279,7 +279,7 @@ var VIG_SITE = (function () {
     o += '<text x="216" y="382" text-anchor="end" class="mx-kl">МАЛ</text><text x="248" y="382" class="mx-kl">БОЛ</text>';
     o += '<circle class="mx-piezo" cx="402" cy="378" r="9" fill="#B03A2E" stroke="#E74C3C"/><text x="402" y="397" text-anchor="middle" class="mx-kl">ПЬЕЗО</text>';
     o += '<path class="mx-spark" d="M296 344l6-8 2 6 6-9" stroke="#FFE7A0" stroke-width="2.5" fill="none"/>';
-    o += '<text x="312" y="420" text-anchor="middle" class="mx-cap">ПЛИТКА ПГ-1 · 900 $</text>';
+    o += '<text x="312" y="420" text-anchor="middle" class="mx-cap">ПЛИТКА ПГ-1 · 90 $</text>';
     // кастрюля (наклоняется над противнем), пар, пакет смеси
     o += '<g class="mx-pot"><rect x="252" y="284" width="116" height="64" rx="8" fill="url(#steel)" stroke="#56645D" stroke-width="1.5"/>' +
       '<rect x="238" y="296" width="16" height="7" rx="3" fill="#56645D"/><rect x="366" y="296" width="16" height="7" rx="3" fill="#56645D"/>' +
@@ -322,7 +322,7 @@ var VIG_SITE = (function () {
         '<text x="450" y="' + y + '" class="mx-fn">' + r[0] + '</text><text x="560" y="' + y + '" class="mx-fv">' + r[1] + '</text></g>';
     }).join('');
     o += '<text x="430" y="358" class="mx-note">тряхнуть, подождать слои, слить грязь до черты:</text><text x="430" y="374" class="mx-note">окно ±1,5 с — рано: грязь осталась, поздно: ушла основа</text>';
-    o += '<text x="430" y="400" class="mx-note2">основа для Голубого — 370 $ вместо 700</text>';
+    o += '<text x="430" y="400" class="mx-note2">основа для Голубого — 37 $ вместо 70</text>';
     return o + '</g>';
   }
   function sceneB() { // реактор Р-20: загрузка и варка
@@ -348,7 +348,7 @@ var VIG_SITE = (function () {
     }).join('') + '</g>';
     o += '<g class="mx-valve"><rect x="150" y="194" width="9" height="11" fill="#C79A3A"/><path class="mt-steam" d="M154 188c-6-8 6-12 0-20s6-12 0-20" stroke="#DDE6E1" stroke-width="2" fill="none"/></g>';
     o += '<path d="M111 370V386H140" stroke="#8E9A94" stroke-width="3" fill="none"/>';
-    o += '<text x="111" y="424" text-anchor="middle" class="mx-cap">РЕАКТОР Р-20 · 6 500 $</text>';
+    o += '<text x="111" y="424" text-anchor="middle" class="mx-cap">РЕАКТОР Р-20 · 650 $</text>';
     // канистры и банка (загрузка)
     // горлышко канистры (63,120) после поворота 55° вокруг (48,155) и сдвига (-16,0) - в точке (69,147):
     // жидкость переваливает через горлышко и падает в горловину реактора (x 66-84, верх 190)
@@ -420,7 +420,7 @@ var VIG_SITE = (function () {
     o += '<rect x="446" y="232" width="18" height="30" fill="#2A3731" stroke="#8E9A94"/><text x="474" y="274" class="mx-kl">ЗАТРАВКА</text>';
     o += '<g class="mx-vial" transform="translate(0,80)"><rect x="449" y="236" width="12" height="22" rx="3" fill="#BFE6FF" stroke="#4FA8F0"/><rect x="449" y="232" width="12" height="6" fill="#56645D"/></g>';
     o += '<rect x="214" y="360" width="232" height="8" fill="#16201C"/><rect class="mx-prog" x="214" y="360" width="0" height="8" fill="#4FA8F0"/><text x="214" y="386" class="mx-kl">ПРОГРАММА <tspan class="mx-pp">0</tspan> %</text>';
-    o += '<text x="330" y="424" text-anchor="middle" class="mx-cap">ШКАФ КШ-4 · 4 500 $</text>';
+    o += '<text x="330" y="424" text-anchor="middle" class="mx-cap">ШКАФ КШ-4 · 450 $</text>';
     // чиллер
     o += '<rect x="540" y="300" width="96" height="100" rx="6" fill="#16323F" stroke="#5BC8FF" stroke-width="1.5"/><text x="588" y="330" text-anchor="middle" class="mx-pk2" fill="#BFE6FF">ХЛ-1</text>' +
       '<path d="M556 350h64M556 362h64M556 374h64" stroke="#5BC8FF" stroke-opacity=".5"/>';
@@ -438,7 +438,7 @@ var VIG_SITE = (function () {
     o += '<g class="mx-ham" transform="rotate(-40 360 250)"><rect x="356" y="250" width="8" height="96" rx="3" fill="#6B4E35"/><rect x="330" y="236" width="60" height="22" rx="3" fill="#8E9A94" stroke="#C9D1CD"/></g>';
     o += '<rect x="390" y="344" width="110" height="18" fill="#2A3731" stroke="#56645D"/><rect x="404" y="320" width="82" height="24" fill="#6B4E35" stroke="#8C6D2C"/><text x="445" y="337" text-anchor="middle" class="mx-pk2" fill="#E8DCC0">ЯЩИК ПАРТИИ</text>';
     o += '<text class="mx-scale" x="445" y="358" text-anchor="middle">0 г</text>';
-    o += '<text x="330" y="424" text-anchor="middle" class="mx-cap">СТОЛ ФАСОВКИ СФ-1 · 1 500 $</text>';
+    o += '<text x="330" y="424" text-anchor="middle" class="mx-cap">СТОЛ ФАСОВКИ СФ-1 · 150 $</text>';
     // пакет 5 г со штампом
     o += '<g class="mx-bag"><rect x="574" y="170" width="120" height="150" rx="5" fill="rgba(200,215,210,.08)" stroke="rgba(200,215,210,.4)"/><rect x="574" y="170" width="120" height="6" fill="#2ECC71" opacity=".8"/>' +
       '<rect x="586" y="186" width="96" height="22" fill="#E3DED1"/><text x="634" y="201" text-anchor="middle" class="mx-pk" fill="#2F6FB0">ГОЛУБОЙ</text>' +
@@ -858,7 +858,7 @@ var VIG_SITE = (function () {
     }
   };
 
-  // Терминал: дороже 10 000 $ - карту в терминал. Боковая щель на правом боку корпуса: x = 320,
+  // Терминал: дороже 1 000 $ (A.TAPMAX) - карту в терминал. Боковая щель на правом боку корпуса: x = 320,
   // y 366..446 (рядом с клавишами). Карта входит левым краем (чип) на 60 % и торчит, пока вводят ПИН.
   var term0 = VIG.term;
   VIG.term = {
@@ -886,23 +886,23 @@ var VIG_SITE = (function () {
 
   // ── ЭКОНОМИКА: казна города за час игры ─────────────────────────────────────
   // Статьи и правила - addon/synd_mayor/.../sh_city_budget.lua (C.TAX, C.ARTICLES,
-  // оклад только C.GOV, пособие 30, бюджет 25 000 при запуске карты). Суммы -
+  // оклад только C.GOV, пособие 3, StartBudget 5 000 при запуске карты). Суммы -
   // build/budgetsim.py --lines 20 (20 игроков, ставки по умолчанию): модель читает
   // те же числа из Lua. Указ мэра: подоходный 20 -> 30 % = доход статьи x1,5.
-  var ECO_IN = [['Транспортный налог', 9360, 'машины, раз в 30 мин'], ['Подоходный налог', 8400, 'ферма, нефть, кухня, бизнес'],
-    ['Электроэнергия', 6900, 'приборы в городской сети'], ['Лицензии и штрафы', 5500, 'штрафы, залоги, пошлины'],
-    ['Аренда недвижимости', 4800, 'двери, раз в 15 мин'], ['Транзитный налог', 3520, 'рейсы курьеров'],
-    ['Топливо на АЗС', 3343, 'вся выручка АЗС'], ['Гос. цех банкира', 3240, '30 % напечатанного'],
-    ['Коммерческий налог', 3000, 'сверху на покупки в F4'], ['Промышленный налог', 2800, 'руда и слитки'],
-    ['Казино', 500, 'доля с дохода заведения']];
-  var ECO_OUT = [['Оклады госслужбе', 22100, 'мэр, полиция, медики, банкир'], ['Тюрьма и КПЗ', 4000, '50 $ в минуту за человека'],
-    ['Госзаказы', 3600, 'медикаменты и амуниция'], ['Больница', 2500, 'реанимация'], ['Пособие', 2400, 'безработным, 30 $'],
-    ['АЭС: энергия', 920, 'инженерам за МВт·ч'], ['Уран для АЭС', 720, 'курьерам'], ['Служебный транспорт', 225, 'полиция и медики'],
-    ['Топливо для АЗС', 216, 'курьерам']];
+  var ECO_IN = [['Транспортный налог', 468, 'машины, раз в 30 мин'], ['Подоходный налог', 840, 'ферма, нефть, кухня, бизнес'],
+    ['Электроэнергия', 690, 'приборы в городской сети'], ['Лицензии и штрафы', 3400, 'штрафы, залоги, пошлины'],
+    ['Аренда недвижимости', 480, 'двери, раз в 15 мин'], ['Транзитный налог', 352, 'рейсы курьеров'],
+    ['Топливо на АЗС', 334, 'вся выручка АЗС'], ['Гос. цех банкира', 1635, 'касса гос. цеха'],
+    ['Коммерческий налог', 300, 'сверху на покупки в F4'], ['Промышленный налог', 280, 'руда и слитки'],
+    ['Казино', 50, 'доля с дохода заведения']];
+  var ECO_OUT = [['Оклады госслужбе', 5680, 'мэр, полиция, медики, банкир'], ['Тюрьма и КПЗ', 1300, '5 $ в минуту за человека'],
+    ['Госзаказы', 360, 'медикаменты и амуниция'], ['Больница', 500, 'реанимация'], ['Пособие', 240, 'безработным, 3 $ в получку'],
+    ['АЭС: энергия', 92, 'инженерам за МВт·ч'], ['Уран для АЭС', 72, 'курьерам'], ['Служебный транспорт', 22, 'полиция и медики'],
+    ['Топливо для АЗС', 22, 'курьерам']];
   var EC = { x0: 22, x1: 232, o0: 498, o1: 708, y0: 64, rh: 21.5, vx: 365, vy: 168 };
   function money(v) { return Math.round(v).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' '); }
   function ecoRow(r, i, out) {
-    var x0 = out ? EC.o0 : EC.x0, x1 = out ? EC.o1 : EC.x1, y = EC.y0 + i * EC.rh, max = out ? 22100 : 9360;
+    var x0 = out ? EC.o0 : EC.x0, x1 = out ? EC.o1 : EC.x1, y = EC.y0 + i * EC.rh, max = out ? 5680 : 3400;
     var w = (x1 - x0) * r[1] / max, col = out ? '#E2725B' : '#2ECC71';
     return '<g class="ec-r ec-' + (out ? 'o' : 'i') + i + '" style="transition-delay:' + (i * 55) + 'ms">' +
       '<text x="' + x0 + '" y="' + (y + 9) + '" class="ec-n">' + r[0] + '</text>' +
@@ -919,15 +919,15 @@ var VIG_SITE = (function () {
       '<path class="ec-fd" d="' + d + '" stroke="' + (out ? '#FFB199' : '#9BF0BE') + '" stroke-width="' + Math.max(1.2, sw * 0.45).toFixed(1) + '" fill="none" stroke-dasharray="2 11" stroke-linecap="round"/>';
   }
   // Минута часа: [приход, расход]. Как берёт игра (sh_city_budget.lua, казначейство):
-  // получка раз в 3 мин (PAYDAY 180 с) - оклады госслужбе и пособия, (22 100 + 2 400) / 20,
-  // с ней же тариф на свет 6 900 / 20; аренда раз в 15 мин 4 800 / 4; транспортный раз в
-  // 30 мин 9 360 / 2; остальное ровно по минутам. Сумма за час = строкам модели выше.
-  var ECB = { y: 466, slot: 686 / 60, w: 8, c: 40 / Math.sqrt(6730) };
+  // получка раз в 3 мин (PAYDAY 180 с) - оклады госслужбе и пособия, (5 680 + 240) / 20,
+  // с ней же тариф на свет 690 / 20; аренда раз в 15 мин 480 / 4; транспортный раз в
+  // 30 мин 468 / 2; остальное ровно по минутам. Сумма за час = строкам модели выше.
+  var ECB = { y: 466, slot: 686 / 60, w: 8, c: 40 / Math.sqrt(508.35) };
   function ecoMin(m) {
-    var inc = 30303 / 60, out = 12181 / 60;
-    if (m % 3 === 0) { inc += 345; out += 1225; }
-    if (m % 15 === 0) inc += 1200;
-    if (m % 30 === 0) inc += 4680;
+    var inc = 7191 / 60, out = 2368 / 60;
+    if (m % 3 === 0) { inc += 34.5; out += 296; }
+    if (m % 15 === 0) inc += 120;
+    if (m % 30 === 0) inc += 234;
     return [inc, out];
   }
   VIG.eco = {
@@ -936,8 +936,8 @@ var VIG_SITE = (function () {
       o += K.head('КАЗНА ГОРОДА · ОДИН ЧАС ИГРЫ', '<tspan class="ec-st">МОДЕЛЬ: 20 ИГРОКОВ</tspan>');
       o += '<text x="' + EC.x0 + '" y="56" class="ec-h in">ДОХОДЫ · $ В ЧАС</text><text x="' + EC.o1 + '" y="56" text-anchor="end" class="ec-h out">РАСХОДЫ · $ В ЧАС</text>';
       var i;
-      for (i = 0; i < ECO_IN.length; i++) o += ecoFlow(i, false, ECO_IN[i][1], 9360);
-      for (i = 0; i < ECO_OUT.length; i++) o += ecoFlow(i, true, ECO_OUT[i][1], 22100);
+      for (i = 0; i < ECO_IN.length; i++) o += ecoFlow(i, false, ECO_IN[i][1], 3400);
+      for (i = 0; i < ECO_OUT.length; i++) o += ecoFlow(i, true, ECO_OUT[i][1], 5680);
       for (i = 0; i < ECO_IN.length; i++) o += ecoRow(ECO_IN[i], i, false);
       for (i = 0; i < ECO_OUT.length; i++) o += ecoRow(ECO_OUT[i], i, true);
       // казна: шестигранник знака города
@@ -946,16 +946,16 @@ var VIG_SITE = (function () {
       o += '<circle cx="' + EC.vx + '" cy="' + EC.vy + '" r="120" fill="url(#ecGlow)" class="ec-glow"/>';
       o += '<path class="ec-hx" d="' + hx + 'Z" fill="#08100C" stroke="#2ECC71" stroke-width="2"/><path d="' + hx + 'Z" fill="none" stroke="#2ECC71" stroke-opacity=".25" stroke-width="9" class="ec-ring"/>';
       o += '<text x="' + EC.vx + '" y="' + (EC.vy - 34) + '" text-anchor="middle" class="ec-vt">КАЗНА</text>';
-      o += '<text x="' + EC.vx + '" y="' + (EC.vy + 6) + '" text-anchor="middle" class="ec-cash"><tspan class="ec-cv">25 000</tspan> $</text>';
+      o += '<text x="' + EC.vx + '" y="' + (EC.vy + 6) + '" text-anchor="middle" class="ec-cash"><tspan class="ec-cv">5 000</tspan> $</text>';
       o += '<text x="' + EC.vx + '" y="' + (EC.vy + 26) + '" text-anchor="middle" class="ec-clk">МИНУТА <tspan class="ec-min">00</tspan> / 60</text>';
-      o += '<text x="' + EC.vx + '" y="' + (EC.vy + 44) + '" text-anchor="middle" class="ec-sub">старт карты: 25 000</text>';
+      o += '<text x="' + EC.vx + '" y="' + (EC.vy + 44) + '" text-anchor="middle" class="ec-sub">старт карты: 5 000</text>';
       // итоги часа
-      o += '<g class="ec-tot"><text x="' + (EC.vx - 70) + '" y="282" class="ec-tl">ДОХОД</text><text x="' + (EC.vx - 70) + '" y="300" class="ec-tv in"><tspan class="ec-ti">51 363</tspan></text>' +
-        '<text x="' + (EC.vx + 70) + '" y="282" text-anchor="end" class="ec-tl">РАСХОД</text><text x="' + (EC.vx + 70) + '" y="300" text-anchor="end" class="ec-tv out">36 681</text></g>';
+      o += '<g class="ec-tot"><text x="' + (EC.vx - 70) + '" y="282" class="ec-tl">ДОХОД</text><text x="' + (EC.vx - 70) + '" y="300" class="ec-tv in"><tspan class="ec-ti">8 829</tspan></text>' +
+        '<text x="' + (EC.vx + 70) + '" y="282" text-anchor="end" class="ec-tl">РАСХОД</text><text x="' + (EC.vx + 70) + '" y="300" text-anchor="end" class="ec-tv out">8 288</text></g>';
       // указ мэра: три ползунка, двигается подоходный (ползунки уже - надпись указа справа не наезжает)
       o += '<path d="M22 322H708" stroke="#22302A"/>';
       o += '<text x="22" y="344" class="ec-h">УКАЗ МЭРА · СТАВКИ В КОРИДОРАХ</text><text x="708" y="344" text-anchor="end" class="ec-h">САЛЬДО ЧАСА</text>';
-      var SL = [['Подоходный налог', 0, 35, 20, '%'], ['Аренда двери', 0, 600, 300, '$/ч'], ['Тариф на свет', 0, 600, 300, '$/ч']];
+      var SL = [['Подоходный налог', 0, 35, 20, '%'], ['Аренда двери', 0, 60, 30, '$/ч'], ['Тариф на свет', 0, 60, 30, '$/ч']];
       SL.forEach(function (s, k) {
         var x = 22 + k * 150, w = 130, p = (s[3] - s[1]) / (s[2] - s[1]);
         o += '<g class="ec-sl ec-s' + k + '"><text x="' + x + '" y="368" class="ec-n">' + s[0] + '</text>' +
@@ -964,18 +964,18 @@ var VIG_SITE = (function () {
           '<circle class="ec-th" cx="' + (x + w * p).toFixed(1) + '" cy="380" r="7" fill="#EEF2EF" stroke="#2ECC71" stroke-width="2"/>' +
           '<text x="' + x + '" y="398" class="ec-lim">' + s[1] + '</text><text x="' + (x + w) + '" y="398" text-anchor="end" class="ec-lim">' + s[2] + '</text></g>';
       });
-      o += '<text x="708" y="386" text-anchor="end" class="ec-saldo">+<tspan class="ec-sv2">14 682</tspan> $/ч</text>';
-      o += '<text class="ec-dec" x="708" y="404" text-anchor="end">УКАЗ: ПОДОХОДНЫЙ 30 % · +4 200 $/ч</text>';
+      o += '<text x="708" y="386" text-anchor="end" class="ec-saldo">+<tspan class="ec-sv2">541</tspan> $/ч</text>';
+      o += '<text class="ec-dec" x="708" y="404" text-anchor="end">УКАЗ: ПОДОХОДНЫЙ 30 % · +420 $/ч</text>';
       // приход и расход по минутам: зелёное вверх, красное вниз (высота - корень суммы)
       o += '<path d="M22 412H708" stroke="#16201C"/>';
       o += '<text x="22" y="428" class="ec-h">ПРИХОД И РАСХОД ПО МИНУТАМ</text>';
       o += '<path d="M22 ' + ECB.y + 'H708" stroke="#3C4742"/>';
       for (var m = 1; m <= 60; m++) {
         var f = ecoMin(m), x = 22 + (m - 1) * ECB.slot + (ECB.slot - ECB.w) / 2, hu = ECB.c * Math.sqrt(f[0]), hd = ECB.c * Math.sqrt(f[1]);
-        o += '<g class="ec-b ec-b' + m + '"><rect x="' + x.toFixed(1) + '" y="' + (ECB.y - hu).toFixed(1) + '" width="' + ECB.w + '" height="' + hu.toFixed(1) + '" fill="' + (f[0] > 1000 ? '#7CF29A' : '#2ECC71') + '"/>' +
-          '<rect x="' + x.toFixed(1) + '" y="' + (ECB.y + 1) + '" width="' + ECB.w + '" height="' + hd.toFixed(1) + '" fill="' + (f[1] > 1000 ? '#FF6A4D' : '#B84A35') + '"/></g>';
+        o += '<g class="ec-b ec-b' + m + '"><rect x="' + x.toFixed(1) + '" y="' + (ECB.y - hu).toFixed(1) + '" width="' + ECB.w + '" height="' + hu.toFixed(1) + '" fill="' + (f[0] > 200 ? '#7CF29A' : '#2ECC71') + '"/>' +
+          '<rect x="' + x.toFixed(1) + '" y="' + (ECB.y + 1) + '" width="' + ECB.w + '" height="' + hd.toFixed(1) + '" fill="' + (f[1] > 200 ? '#FF6A4D' : '#B84A35') + '"/></g>';
       }
-      [['#FF6A4D', 'получка госслужбе −1 225 · каждые 3 мин'], ['#7CF29A', 'аренда +1 200 · раз в 15 мин'], ['#7CF29A', 'транспортный +4 680 · раз в 30 мин']].forEach(function (l, k) {
+      [['#FF6A4D', 'получка госслужбе −296 · каждые 3 мин'], ['#7CF29A', 'аренда +120 · раз в 15 мин'], ['#7CF29A', 'транспортный +234 · раз в 30 мин']].forEach(function (l, k) {
         var x = 22 + k * 232;
         o += '<rect x="' + x + '" y="510" width="8" height="8" fill="' + l[0] + '"/><text x="' + (x + 14) + '" y="518" class="ec-lg">' + l[1] + '</text>';
       });
@@ -998,16 +998,16 @@ var VIG_SITE = (function () {
         });
       }
       function pulse(cls, ms) { root.classList.add(cls); T.at(ms, function () { root.classList.remove(cls); }); }
-      var bal = 25000, DT = 7000 / 60;
+      var bal = 5000, DT = 7000 / 60;
       for (var m = 1; m <= 60; m++) (function (m) {
         T.at(1300 + m * DT, function () {
           var f = ecoMin(m);
           bal += f[0] - f[1];
           cv.textContent = money(bal); mn.textContent = ('0' + m).slice(-2);
           root.querySelector('.ec-b' + m).classList.add('on');
-          if (m % 30 === 0) { float('+4 680 транспортный', true); pulse('pi0', 380); pulse('gain', 300); }
-          else if (m % 15 === 0) { float('+1 200 аренда', true); pulse('pi4', 380); pulse('gain', 300); }
-          if (m % 3 === 0) { if (m % 15) float('−880 получка', false); pulse('po', 300); pulse('pay', 260); pulse('pi2', 300); }
+          if (m % 30 === 0) { float('+234 транспортный', true); pulse('pi0', 380); pulse('gain', 300); }
+          else if (m % 15 === 0) { float('+120 аренда', true); pulse('pi4', 380); pulse('gain', 300); }
+          if (m % 3 === 0) { if (m % 15) float('−262 получка', false); pulse('po', 300); pulse('pay', 260); pulse('pi2', 300); }
         });
       })(m);
       T.at(3600, function () { root.classList.add('p2'); });
@@ -1016,10 +1016,10 @@ var VIG_SITE = (function () {
       var row = root.querySelector('.ec-i1'), rv = row.querySelector('.ec-v'), rb = row.querySelector('.ec-bar');
       T.at(8600, function () { root.classList.add('p3'); });
       T.anim(8700, 1300, function (e) {
-        var pct = 20 + 10 * e, inc = 8400 * pct / 20;
+        var pct = 20 + 10 * e, inc = 840 * pct / 20;
         th.setAttribute('cx', (22 + 130 * pct / 35).toFixed(1)); sf.setAttribute('width', (130 * pct / 35).toFixed(1)); svv.textContent = Math.round(pct);
-        rv.textContent = money(inc); rb.setAttribute('width', Math.min(210, 210 * inc / 9360).toFixed(1));
-        ti.textContent = money(51363 + (inc - 8400)); sv.textContent = money(14682 + (inc - 8400));
+        rv.textContent = money(inc); rb.setAttribute('width', Math.min(210, 210 * inc / 3400).toFixed(1));
+        ti.textContent = money(8829 + (inc - 840)); sv.textContent = money(541 + (inc - 840));
       }, K.eio);
     }
   };
@@ -1153,7 +1153,7 @@ var VIG_SITE = (function () {
   //   nc_turbine/shared.lua, init   пар от 30 кгс/см2, 3000 об/мин, окно сети ±60,
   //                                 разнос 3300, вакуум 0,95 (срыв 0,40), нагрузка
   //                                 3,0 x мощность x мин(1, давл/50) x (0,55 + 0,45 вак/0,95)
-  //   sv_nc_city_bridge.lua         ТВЭЛ по заказу мэра 250 $, бочка ОЯТ 550 $ за ТВЭЛ
+  //   sv_nc_city_bridge.lua         курьеру 6 $ за ТВЭЛ (C.URANIUM_RUN), бочка ОЯТ 55 $ за ТВЭЛ (ROD_PRICE)
   //   build/console_top_marks.py    ваттметры 0..3 МВт, красное от 2,6
   (function () {
     var DT = 0.02, TEND = 21, FOUL = 0.06, CITY = 0.375;   // город: 75 приборов x 5 кВт (день)
@@ -1165,8 +1165,8 @@ var VIG_SITE = (function () {
     var SWX = [140, 176, 212, 248], SWN = ['ГЦН-1', 'ГЦН-2', 'ВЕНТ', 'ЗАЩ'];
     var ROWS = [['ТЕМП. ЗОНЫ', 400, [[320, '#F1C40F'], [368, '#E74C3C']]], ['ДАВЛ. БС-1', 100, [[30, '#2ECC71'], [92, '#E74C3C']]],
       ['ОБОРОТЫ', 3600, [[2940, '#2ECC71'], [3060, '#2ECC71'], [3300, '#E74C3C']]], ['ВАКУУМ', 1, [[0.40, '#E74C3C']]]];
-    var CHAIN = [['U · СЛИТОК', 'уран с рудника'], ['ЗАКАЗ МЭРА', '250 $ за ТВЭЛ'], ['ЯЩИК ТВЭЛ', 'по 6 шт.'],
-      ['ДОСЫЛАТЕЛЬ', 'У-2М → в канал'], ['ЗОНА ИР-60', '12 из 60 каналов'], ['БОЧКА ОЯТ', '550 $ за ТВЭЛ']];
+    var CHAIN = [['U · СЛИТОК', 'уран с рудника'], ['ЗАКАЗ МЭРА', '6 $ за ТВЭЛ'], ['ЯЩИК ТВЭЛ', 'по 6 шт.'],
+      ['ДОСЫЛАТЕЛЬ', 'У-2М → в канал'], ['ЗОНА ИР-60', '12 из 60 каналов'], ['БОЧКА ОЯТ', '55 $ за ТВЭЛ']];
     var BUB = [0, 1, 3, 4, 6, 7, 9, 10];
     var PATH = {
       riser: 'M158 190H218V112H248', down1: 'M330 128V178H276V206', down2: 'M330 178H362V206',
